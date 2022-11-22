@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 //@ts-ignore
-import classes from "./autocomplete.module.css";
+import classes from "./index.module.css";
 import { callAll, bodyClickHandler, keyDownHandler } from "./utils";
 import { useAutocomplete, AutocompleteContext } from "./context";
 
@@ -151,11 +151,13 @@ function List({ children, ...props }: ListProps) {
 
 interface AutocompleteProps {
   options?: { name: string; value: string; id: number }[];
+  onSearch?: (event: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
 }
-function Autocomplete({ options = [] }: AutocompleteProps) {
+
+function Autocomplete({ options = [], onSearch }: AutocompleteProps) {
   return (
     <Container>
-      <Input placeholder="Enter an product's name" />
+      <Input placeholder="Enter an product's name" onChange={onSearch} />
 
       <List>
         {options.map((option) => (

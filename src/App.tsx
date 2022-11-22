@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 import Autocomplete from "./components/Autocomplete";
 import products, { Product } from "./services/products";
@@ -11,9 +11,15 @@ function App() {
     run(products());
   }, []);
 
+  async function searchProductHandler(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
+    run(products(event.target.value));
+  }
+
   return (
     <div className="App">
-      <Autocomplete options={data} />
+      <Autocomplete options={data} onSearch={searchProductHandler} />
     </div>
   );
 }
