@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 
+import usePrevious from "../../hooks/usePrevious";
 //@ts-ignore
 import classes from "./index.module.css";
 import { callAll, bodyClickHandler, keyDownHandler, throttle } from "./utils";
-import usePrevious from "../../hooks/usePrevious";
 import { useAutocomplete, AutocompleteContext } from "./context";
 
 type ContainerProps = React.HTMLAttributes<HTMLDivElement>;
