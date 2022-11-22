@@ -2,7 +2,7 @@
 
 An awesome `Auto Complete` for your React application.
 
-## Installation
+## Installation in your project
 
 ```
 # Yarn
@@ -12,4 +12,12 @@ yarn add react-auto-complete
 npm install react-auto-complete
 ```
 
-## Usage
+## Usage cloned repository
+
+```
+# Yarn
+yarn install
+
+# NPM
+npm install
+```

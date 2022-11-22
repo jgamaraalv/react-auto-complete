@@ -1,0 +1,7 @@
+.list__item {
+  cursor: pointer;
+}
+
+.list__item__text--highlighted {
+  color: red;
+}

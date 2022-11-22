@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from "react";
 
+//@ts-ignore
+import classes from "./autocomplete.module.css";
 import { useAutocomplete, AutocompleteContext } from "./context";
 
 type AutocompleteProps = React.HTMLAttributes<HTMLDivElement>;
@@ -43,11 +45,26 @@ function Input({ onFocus, onBlur, onChange, ...props }: InputProps) {
   );
 }
 
-type ListItemProps = React.HTMLAttributes<HTMLLIElement> & {
+type ListItemProps = Omit<React.HTMLAttributes<HTMLLIElement>, "children"> & {
   value: string;
+  children: string;
 };
 function ListItem({ children, value, onMouseDown, ...props }: ListItemProps) {
-  const { setValue } = useAutocomplete();
+  const { setValue, value: autocompleteValue } = useAutocomplete();
+  const valueRegex = new RegExp(`(${autocompleteValue})`, "i");
+
+  const item = children.split(valueRegex).map((letter, idx) =>
+    letter.toLocaleLowerCase() === autocompleteValue.toLocaleLowerCase() ? (
+      <span
+        key={`value-${letter}-${idx}`}
+        className={classes["list__item__text--highlighted"]}
+      >
+        {letter}
+      </span>
+    ) : (
+      letter
+    )
+  );
 
   return (
     <li
@@ -55,9 +72,10 @@ function ListItem({ children, value, onMouseDown, ...props }: ListItemProps) {
         setValue(value);
         onMouseDown?.(event);
       }}
+      className={classes["list__item"]}
       {...props}
     >
-      {children}
+      {item}
     </li>
   );
 }
@@ -68,23 +86,21 @@ type ListProps = Omit<React.HTMLAttributes<HTMLUListElement>, "children"> & {
 function List({ children, ...props }: ListProps) {
   const { open, value } = useAutocomplete();
 
-  return open ? (
-    <ul {...props}>
-      {React.Children.map(children, (child) => {
-        if (child.type !== ListItem) {
-          throw new Error(
-            "<Autocomplete.List> children must be an <Autocomplete.ListItem>"
-          );
-        }
+  const listChildren = React.Children.map(children, (child) => {
+    if (child.type !== ListItem) {
+      throw new Error(
+        "<Autocomplete.List> children must be an <Autocomplete.ListItem>"
+      );
+    }
 
-        if (child.props.value.includes(value)) {
-          return child;
-        }
+    if (child.props.value.includes(value)) {
+      return child;
+    }
 
-        return null;
-      })}
-    </ul>
-  ) : null;
+    return null;
+  });
+
+  return open ? <ul {...props}>{listChildren}</ul> : null;
 }
 
 Autocomplete.Input = Input;
