@@ -4,7 +4,7 @@ interface AutocompleteContextProps {
   open: boolean;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
-  toggle: () => void;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AutocompleteContext =

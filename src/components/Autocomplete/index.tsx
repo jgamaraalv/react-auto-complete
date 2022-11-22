@@ -1,23 +1,42 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 //@ts-ignore
 import classes from "./autocomplete.module.css";
+import { callAll, bodyClickHandler, keyDownHandler } from "./utils";
 import { useAutocomplete, AutocompleteContext } from "./context";
-
-const callAll =
-  (...fns: (((...args: any[]) => void) | undefined)[]) =>
-  (...args: any[]) =>
-    fns.forEach((fn) => fn?.(...args));
 
 type AutocompleteProps = React.HTMLAttributes<HTMLDivElement>;
 function Autocomplete({ children, ...props }: AutocompleteProps) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
-  const toggle = useCallback(() => setOpen((state) => !state), []);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const bodyClickListener = (event: MouseEvent) =>
+      bodyClickHandler(event, containerRef, () => setOpen(false));
+    const keyDownListener = (event: KeyboardEvent) =>
+      keyDownHandler(event, () => setOpen(false));
+
+    if (open) {
+      document.body.addEventListener("click", bodyClickListener);
+      document.body.addEventListener("keydown", keyDownListener);
+    }
+
+    return () => {
+      if (open) {
+        document.body.removeEventListener("click", bodyClickListener);
+        document.body.removeEventListener("keydown", keyDownListener);
+      }
+    };
+  }, [open]);
 
   return (
-    <AutocompleteContext.Provider value={{ open, toggle, value, setValue }}>
-      <div className={classes["autocomplete__container"]} {...props}>
+    <AutocompleteContext.Provider value={{ open, value, setValue, setOpen }}>
+      <div
+        className={classes["autocomplete__container"]}
+        ref={containerRef}
+        {...props}
+      >
         {children}
       </div>
     </AutocompleteContext.Provider>
@@ -26,7 +45,7 @@ function Autocomplete({ children, ...props }: AutocompleteProps) {
 
 type InputProps = React.HTMLAttributes<HTMLInputElement>;
 function Input({ onFocus, onBlur, onChange, ...props }: InputProps) {
-  const { value, toggle, setValue } = useAutocomplete();
+  const { value, setOpen, setValue } = useAutocomplete();
 
   function inputChangeHandler(event: React.ChangeEvent<HTMLInputElement>) {
     setValue(event.target.value.toLocaleLowerCase());
@@ -34,8 +53,7 @@ function Input({ onFocus, onBlur, onChange, ...props }: InputProps) {
 
   return (
     <input
-      onFocus={callAll(toggle, onFocus)}
-      onBlur={callAll(toggle, onBlur)}
+      onFocus={callAll(() => setOpen(true), onFocus)}
       onChange={callAll(inputChangeHandler, onChange)}
       value={value}
       className={classes["input"]}
@@ -48,9 +66,26 @@ type ListItemProps = Omit<React.HTMLAttributes<HTMLLIElement>, "children"> & {
   value: string;
   children: string;
 };
-function ListItem({ children, value, onMouseDown, ...props }: ListItemProps) {
-  const { setValue, value: autocompleteValue } = useAutocomplete();
+function ListItem({
+  children,
+  value,
+  onMouseDown,
+  onKeyDown,
+  ...props
+}: ListItemProps) {
+  const { value: autocompleteValue, setOpen, setValue } = useAutocomplete();
   const valueRegex = new RegExp(`(${autocompleteValue})`, "gi");
+
+  function setValueHandler() {
+    setValue(value);
+    setOpen(false);
+  }
+
+  function keyDownHandler(event: React.KeyboardEvent) {
+    if (event.key === "Enter" || event.code === "Enter") {
+      setValueHandler();
+    }
+  }
 
   const item = children.split(valueRegex).map((letter, idx) =>
     letter.toLocaleLowerCase() === autocompleteValue.toLocaleLowerCase() ? (
@@ -67,8 +102,10 @@ function ListItem({ children, value, onMouseDown, ...props }: ListItemProps) {
 
   return (
     <li
-      onMouseDown={callAll(() => setValue(value), onMouseDown)}
+      onMouseDown={callAll(setValueHandler, onMouseDown)}
+      onKeyDown={callAll(keyDownHandler, onKeyDown)}
       className={classes["list__item"]}
+      tabIndex={0}
       {...props}
     >
       {item}
