@@ -8,6 +8,7 @@ function App() {
 
         <Autocomplete.List>
           <Autocomplete.ListItem value="teste">Teste</Autocomplete.ListItem>
+          <Autocomplete.ListItem value="olar">olar</Autocomplete.ListItem>
         </Autocomplete.List>
       </Autocomplete>
     </div>

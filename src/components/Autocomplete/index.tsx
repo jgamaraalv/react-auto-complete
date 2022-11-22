@@ -12,7 +12,9 @@ function Autocomplete({ children, ...props }: AutocompleteProps) {
 
   return (
     <AutocompleteContext.Provider value={{ open, toggle, value, setValue }}>
-      <div {...props}>{children}</div>
+      <div className={classes["autocomplete__container"]} {...props}>
+        {children}
+      </div>
     </AutocompleteContext.Provider>
   );
 }
@@ -40,6 +42,7 @@ function Input({ onFocus, onBlur, onChange, ...props }: InputProps) {
         onChange?.(event);
       }}
       value={value}
+      className={classes["input"]}
       {...props}
     />
   );
@@ -81,7 +84,9 @@ function ListItem({ children, value, onMouseDown, ...props }: ListItemProps) {
 }
 
 type ListProps = Omit<React.HTMLAttributes<HTMLUListElement>, "children"> & {
-  children: React.ReactElement<ListItemProps, typeof ListItem>;
+  children:
+    | React.ReactElement<ListItemProps, typeof ListItem>
+    | React.ReactElement<ListItemProps, typeof ListItem>[];
 };
 function List({ children, ...props }: ListProps) {
   const { open, value } = useAutocomplete();
@@ -100,7 +105,11 @@ function List({ children, ...props }: ListProps) {
     return null;
   });
 
-  return open ? <ul {...props}>{listChildren}</ul> : null;
+  return open ? (
+    <ul className={classes["list"]} {...props}>
+      {listChildren}
+    </ul>
+  ) : null;
 }
 
 Autocomplete.Input = Input;
