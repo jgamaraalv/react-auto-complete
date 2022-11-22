@@ -41,6 +41,6 @@
 }
 
 .list__item__text--highlighted {
-  color: yellowgreen;
   font-weight: bold;
+  text-decoration: underline;
 }
