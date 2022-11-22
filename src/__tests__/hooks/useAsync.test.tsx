@@ -1,6 +1,6 @@
 import { renderHook, act } from "@testing-library/react-hooks";
 
-import { useAsync, UseAsyncState } from "../useAsync";
+import { useAsync, UseAsyncState } from "../../hooks/useAsync";
 
 beforeEach(() => {
   jest.spyOn(console, "error");
