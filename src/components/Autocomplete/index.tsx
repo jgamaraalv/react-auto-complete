@@ -159,7 +159,6 @@ interface AutocompleteProps {
   onSearch?: (event: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
   onOptionSelected?: ListItemProps["onClick"];
 }
-
 function Autocomplete({
   options = [],
   onSearch,
@@ -204,6 +203,12 @@ Container.Input = Input;
 Container.List = List;
 Container.ListItem = ListItem;
 
-export type { AutocompleteProps, InputProps, ListProps, ListItemProps };
+export type {
+  ContainerProps,
+  InputProps,
+  ListProps,
+  ListItemProps,
+  AutocompleteProps,
+};
 export { Container as Autocomplete };
 export default Autocomplete;
