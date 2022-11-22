@@ -1,10 +1,10 @@
-export interface ProductResponse {
+interface ProductResponse {
   title: string;
   value: string;
   id: number;
 }
 
-export interface Product {
+interface Product {
   name: string;
   value: string;
   id: number;
@@ -12,9 +12,7 @@ export interface Product {
 
 async function products(search: string = "") {
   const response = await fetch(
-    `https://dummyjson.com/products?limit=15${
-      search ? `&search=${search}` : ""
-    }`
+    `https://dummyjson.com/products${search ? `/search?q=${search}` : ""}`
   );
 
   const data: { products: ProductResponse[] } = await response.json();

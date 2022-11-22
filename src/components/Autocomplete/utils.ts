@@ -3,11 +3,11 @@ export const callAll =
   (...args: any[]) =>
     fns.forEach((fn) => fn?.(...args));
 
-export const bodyClickHandler = (
+export function bodyClickHandler(
   event: MouseEvent,
   elementRef: React.RefObject<HTMLDivElement>,
   cbFn: () => void
-) => {
+) {
   let element = event.target as HTMLElement | null;
 
   while (element) {
@@ -19,10 +19,29 @@ export const bodyClickHandler = (
   }
 
   cbFn();
-};
+}
 
-export const keyDownHandler = (event: KeyboardEvent, cbFn: () => void) => {
+export function keyDownHandler(event: KeyboardEvent, cbFn: () => void) {
   if (event.code === "Escape" || event.key === "Escape") {
     cbFn();
   }
-};
+}
+
+export function throttle(
+  fn: (event: React.ChangeEvent<HTMLInputElement>) => Promise<void>,
+  time: number
+) {
+  let setTimeoutId: NodeJS.Timeout | null;
+
+  return function () {
+    if (setTimeoutId) {
+      return;
+    }
+
+    setTimeoutId = setTimeout(() => {
+      //@ts-ignore
+      fn.apply(this, arguments);
+      setTimeoutId = null;
+    }, time);
+  };
+}

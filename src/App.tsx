@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import Autocomplete from "./components/Autocomplete";
-import products, { Product } from "./services/products";
+import products from "./services/products";
 import useAsync, { PromiseType } from "./hooks/useAsync";
 
 function App() {
@@ -16,7 +16,6 @@ function App() {
   ) {
     run(products(event.target.value));
   }
-
   return (
     <div className="App">
       <Autocomplete options={data} onSearch={searchProductHandler} />

@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 
 //@ts-ignore
 import classes from "./index.module.css";
-import { callAll, bodyClickHandler, keyDownHandler } from "./utils";
+import { callAll, bodyClickHandler, keyDownHandler, throttle } from "./utils";
+import usePrevious from "../../hooks/usePrevious";
 import { useAutocomplete, AutocompleteContext } from "./context";
 
 type ContainerProps = React.HTMLAttributes<HTMLDivElement>;
@@ -155,12 +156,28 @@ interface AutocompleteProps {
 }
 
 function Autocomplete({ options = [], onSearch }: AutocompleteProps) {
+  const [suggestedOptions, setSuggestedOptions] = useState(() => options);
+  const previousSuggestedOptions = usePrevious(suggestedOptions);
+
+  useEffect(() => {
+    if (
+      JSON.stringify(previousSuggestedOptions) !==
+        JSON.stringify(suggestedOptions) ||
+      suggestedOptions.length === 0
+    ) {
+      setSuggestedOptions(options);
+    }
+  }, [suggestedOptions, options, previousSuggestedOptions]);
+
   return (
     <Container>
-      <Input placeholder="Enter an product's name" onChange={onSearch} />
+      <Input
+        placeholder="Enter an product's name"
+        onChange={onSearch && throttle(onSearch, 500)}
+      />
 
       <List>
-        {options.map((option) => (
+        {suggestedOptions.map((option) => (
           <ListItem key={`option-${option.id}`} value={option.value}>
             {option.name}
           </ListItem>
