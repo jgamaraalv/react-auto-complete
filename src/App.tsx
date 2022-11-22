@@ -17,7 +17,7 @@ function App() {
     run(products(event.target.value));
   }
   return (
-    <div className="App">
+    <div>
       <Autocomplete options={data} onSearch={searchProductHandler} />
     </div>
   );

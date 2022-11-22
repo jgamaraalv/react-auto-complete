@@ -172,7 +172,7 @@ function Autocomplete({ options = [], onSearch }: AutocompleteProps) {
   return (
     <Container>
       <Input
-        placeholder="Enter an product's name"
+        placeholder="Enter a product's name"
         onChange={onSearch && throttle(onSearch, 500)}
       />
 
