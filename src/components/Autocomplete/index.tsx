@@ -63,14 +63,18 @@ function Input({ onFocus, onBlur, onChange, ...props }: InputProps) {
   );
 }
 
-type ListItemProps = Omit<React.HTMLAttributes<HTMLLIElement>, "children"> & {
+type ListItemProps = Omit<
+  React.HTMLAttributes<HTMLLIElement>,
+  "children" | "onClick"
+> & {
   value: string;
   children: string;
+  onClick?: (value: string) => void;
 };
 function ListItem({
   children,
   value,
-  onMouseDown,
+  onClick,
   onKeyDown,
   ...props
 }: ListItemProps) {
@@ -106,7 +110,7 @@ function ListItem({
 
   return (
     <li
-      onMouseDown={callAll(setValueHandler, onMouseDown)}
+      onClick={callAll(setValueHandler, () => onClick && onClick(value))}
       onKeyDown={callAll(keyDownHandler, onKeyDown)}
       className={classes["list__item"]}
       tabIndex={0}
@@ -153,9 +157,14 @@ function List({ children, ...props }: ListProps) {
 interface AutocompleteProps {
   options?: { name: string; value: string; id: number }[];
   onSearch?: (event: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
+  onOptionSelected?: ListItemProps["onClick"];
 }
 
-function Autocomplete({ options = [], onSearch }: AutocompleteProps) {
+function Autocomplete({
+  options = [],
+  onSearch,
+  onOptionSelected,
+}: AutocompleteProps) {
   const [suggestedOptions, setSuggestedOptions] = useState(() => options);
   const previousSuggestedOptions = usePrevious(suggestedOptions);
 
@@ -178,7 +187,11 @@ function Autocomplete({ options = [], onSearch }: AutocompleteProps) {
 
       <List>
         {suggestedOptions.map((option) => (
-          <ListItem key={`option-${option.id}`} value={option.value}>
+          <ListItem
+            key={`option-${option.id}`}
+            value={option.value}
+            onClick={onOptionSelected && onOptionSelected}
+          >
             {option.name}
           </ListItem>
         ))}
