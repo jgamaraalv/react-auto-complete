@@ -38,6 +38,8 @@ You can use the pre compounded component like the example below
 
 ```jsx
   import Autocomplete from "react-auto-complete";
+  // if you are running locally
+  // import { Autocomplete } from "./components/Autocomplete";
 
   function App() {
     const { run, data } = useAsync<PromiseType<ReturnType<typeof products>>>();
@@ -65,7 +67,9 @@ You can use the pre compounded component like the example below
 Or you can compound by yourself
 
 ```jsx
-import { Autocomplete } from "./components/Autocomplete";
+import { Autocomplete } from "react-auto-complete";
+// if you are running locally
+// import { Autocomplete } from "./components/Autocomplete";
 
 function App() {
   return (
