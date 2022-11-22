@@ -79,8 +79,6 @@ function ListItem({
     "i"
   );
 
-  console.log(valueRegex);
-
   function setValueHandler() {
     setValue(value);
     setOpen(false);
@@ -133,7 +131,11 @@ function List({ children, ...props }: ListProps) {
       );
     }
 
-    if (child.props.value.includes(value)) {
+    if (
+      child.props.children
+        .toLocaleLowerCase()
+        .includes(value.toLocaleLowerCase())
+    ) {
       return child;
     }
 
