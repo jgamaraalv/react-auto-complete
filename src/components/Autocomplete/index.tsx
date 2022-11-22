@@ -6,7 +6,7 @@ import { callAll, bodyClickHandler, keyDownHandler } from "./utils";
 import { useAutocomplete, AutocompleteContext } from "./context";
 
 type AutocompleteProps = React.HTMLAttributes<HTMLDivElement>;
-function Autocomplete({ children, ...props }: AutocompleteProps) {
+function Container({ children, ...props }: AutocompleteProps) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
@@ -142,9 +142,9 @@ function List({ children, ...props }: ListProps) {
   ) : null;
 }
 
-Autocomplete.Input = Input;
-Autocomplete.List = List;
-Autocomplete.ListItem = ListItem;
+Container.Input = Input;
+Container.List = List;
+Container.ListItem = ListItem;
 
 export type { AutocompleteProps, InputProps, ListProps, ListItemProps };
-export default Autocomplete;
+export { Container as Autocomplete };
