@@ -24,7 +24,7 @@ function Input({ onFocus, onBlur, onChange, ...props }: InputProps) {
   const { value, toggle, setValue } = useAutocomplete();
 
   function inputChangeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    setValue(event.target.value);
+    setValue(event.target.value.toLocaleLowerCase());
   }
 
   return (
@@ -54,7 +54,9 @@ type ListItemProps = Omit<React.HTMLAttributes<HTMLLIElement>, "children"> & {
 };
 function ListItem({ children, value, onMouseDown, ...props }: ListItemProps) {
   const { setValue, value: autocompleteValue } = useAutocomplete();
-  const valueRegex = new RegExp(`(${autocompleteValue})`, "i");
+  const valueRegex = new RegExp(`(${autocompleteValue})`, "gi");
+
+  console.log(valueRegex, autocompleteValue);
 
   const item = children.split(valueRegex).map((letter, idx) =>
     letter.toLocaleLowerCase() === autocompleteValue.toLocaleLowerCase() ? (
