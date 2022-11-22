@@ -4,6 +4,11 @@ import React, { useState, useCallback } from "react";
 import classes from "./autocomplete.module.css";
 import { useAutocomplete, AutocompleteContext } from "./context";
 
+const callAll =
+  (...fns: (((...args: any[]) => void) | undefined)[]) =>
+  (...args: any[]) =>
+    fns.forEach((fn) => fn?.(...args));
+
 type AutocompleteProps = React.HTMLAttributes<HTMLDivElement>;
 function Autocomplete({ children, ...props }: AutocompleteProps) {
   const [open, setOpen] = useState(false);
@@ -29,18 +34,9 @@ function Input({ onFocus, onBlur, onChange, ...props }: InputProps) {
 
   return (
     <input
-      onFocus={(event) => {
-        toggle();
-        onFocus?.(event);
-      }}
-      onBlur={(event) => {
-        toggle();
-        onBlur?.(event);
-      }}
-      onChange={(event) => {
-        inputChangeHandler(event);
-        onChange?.(event);
-      }}
+      onFocus={callAll(toggle, onFocus)}
+      onBlur={callAll(toggle, onBlur)}
+      onChange={callAll(inputChangeHandler, onChange)}
       value={value}
       className={classes["input"]}
       {...props}
@@ -55,8 +51,6 @@ type ListItemProps = Omit<React.HTMLAttributes<HTMLLIElement>, "children"> & {
 function ListItem({ children, value, onMouseDown, ...props }: ListItemProps) {
   const { setValue, value: autocompleteValue } = useAutocomplete();
   const valueRegex = new RegExp(`(${autocompleteValue})`, "gi");
-
-  console.log(valueRegex, autocompleteValue);
 
   const item = children.split(valueRegex).map((letter, idx) =>
     letter.toLocaleLowerCase() === autocompleteValue.toLocaleLowerCase() ? (
@@ -73,10 +67,7 @@ function ListItem({ children, value, onMouseDown, ...props }: ListItemProps) {
 
   return (
     <li
-      onMouseDown={(event) => {
-        setValue(value);
-        onMouseDown?.(event);
-      }}
+      onMouseDown={callAll(() => setValue(value), onMouseDown)}
       className={classes["list__item"]}
       {...props}
     >
