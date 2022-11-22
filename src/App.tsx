@@ -19,7 +19,11 @@ function App() {
 
   return (
     <div>
-      <Autocomplete options={data} onSearch={searchProductHandler} />
+      <Autocomplete
+        options={data}
+        onSearch={searchProductHandler}
+        onOptionSelected={(selectedValue) => console.log(selectedValue)}
+      />
     </div>
   );
 }
