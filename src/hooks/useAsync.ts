@@ -16,6 +16,10 @@ type AsyncState<T = unknown, E extends Error = Error> =
 
 type UseAsyncState<T> = AsyncState<{ data: T }>;
 
+type PromiseType<T extends Promise<unknown>> = T extends Promise<infer R>
+  ? R
+  : never;
+
 function useSafeDispatch<T>(dispatch: React.Dispatch<T>) {
   const mounted = React.useRef(false);
 
@@ -104,5 +108,5 @@ export function useAsync<T>(initialState?: UseAsyncState<T>) {
   };
 }
 
-export type { AsyncState, UseAsyncState };
+export type { AsyncState, PromiseType, UseAsyncState };
 export default useAsync;

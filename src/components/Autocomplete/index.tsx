@@ -5,8 +5,8 @@ import classes from "./autocomplete.module.css";
 import { callAll, bodyClickHandler, keyDownHandler } from "./utils";
 import { useAutocomplete, AutocompleteContext } from "./context";
 
-type AutocompleteProps = React.HTMLAttributes<HTMLDivElement>;
-function Container({ children, ...props }: AutocompleteProps) {
+type ContainerProps = React.HTMLAttributes<HTMLDivElement>;
+function Container({ children, ...props }: ContainerProps) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
@@ -48,7 +48,7 @@ function Input({ onFocus, onBlur, onChange, ...props }: InputProps) {
   const { value, setOpen, setValue } = useAutocomplete();
 
   function inputChangeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    setValue(event.target.value.toLocaleLowerCase());
+    setValue(event.target.value);
   }
 
   return (
@@ -74,7 +74,12 @@ function ListItem({
   ...props
 }: ListItemProps) {
   const { value: autocompleteValue, setOpen, setValue } = useAutocomplete();
-  const valueRegex = new RegExp(`(${autocompleteValue})`, "gi");
+  const valueRegex = new RegExp(
+    `(${autocompleteValue.toLocaleLowerCase()})`,
+    "i"
+  );
+
+  console.log(valueRegex);
 
   function setValueHandler() {
     setValue(value);
@@ -142,9 +147,29 @@ function List({ children, ...props }: ListProps) {
   ) : null;
 }
 
+interface AutocompleteProps {
+  options?: { name: string; value: string; id: number }[];
+}
+function Autocomplete({ options = [] }: AutocompleteProps) {
+  return (
+    <Container>
+      <Input placeholder="Enter an product's name" />
+
+      <List>
+        {options.map((option) => (
+          <ListItem key={`option-${option.id}`} value={option.value}>
+            {option.name}
+          </ListItem>
+        ))}
+      </List>
+    </Container>
+  );
+}
+
 Container.Input = Input;
 Container.List = List;
 Container.ListItem = ListItem;
 
 export type { AutocompleteProps, InputProps, ListProps, ListItemProps };
 export { Container as Autocomplete };
+export default Autocomplete;
