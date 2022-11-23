@@ -1,7 +1,7 @@
-import path from 'path';
-import react from '@vitejs/plugin-react';
-import dts from 'vite-plugin-dts';
-import { defineConfig } from 'vite';
+import path from "path";
+import react from "@vitejs/plugin-react";
+import dts from "vite-plugin-dts";
+import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [
@@ -12,16 +12,16 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/index.ts'),
-      name: 'ReactAmazingForm',
-      fileName: 'react-amazing-form',
+      entry: path.resolve(__dirname, "src/index.ts"),
+      name: "ReactAutoComplete",
+      fileName: "react-auto-complete",
     },
     rollupOptions: {
-      external: ['react', 'react-dom'],
+      external: ["react", "react-dom"],
       output: {
         globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM',
+          react: "React",
+          "react-dom": "ReactDOM",
         },
       },
     },
