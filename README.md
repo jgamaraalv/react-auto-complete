@@ -6,10 +6,10 @@ An awesome `Auto Complete` for your React application.
 
 ```
 # Yarn
-yarn add react-auto-complete
+yarn add @jgamaraalv/react-auto-complete
 
 # NPM
-npm install react-auto-complete
+npm install @jgamaraalv/react-auto-complete
 ```
 
 ## How to run locally
@@ -37,7 +37,7 @@ npm dev
 You can use the pre compounded component like the example below
 
 ```jsx
-  import Autocomplete from "react-auto-complete";
+  import Autocomplete from "@jgamaraalv/react-auto-complete";
   // if you are running locally
   // import { Autocomplete } from "./components/Autocomplete";
 
@@ -67,7 +67,7 @@ You can use the pre compounded component like the example below
 Or you can compound by yourself
 
 ```jsx
-import { Autocomplete } from "react-auto-complete";
+import { Autocomplete } from "@jgamaraalv/react-auto-complete";
 // if you are running locally
 // import { Autocomplete } from "./components/Autocomplete";
 

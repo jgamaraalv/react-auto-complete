@@ -1,7 +1,7 @@
 {
   "name": "@jgamaraalv/react-auto-complete",
   "description": "An amazing auto complete for your React application",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "João G. A. Vequiato <guilive13@gmail.com>",
   "license": "MIT",
   "bugs": {
