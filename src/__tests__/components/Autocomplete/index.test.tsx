@@ -1,16 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { screen, render, fireEvent } from "@testing-library/react";
 
-import CompoundedAutocomplete, {
-  Autocomplete,
-} from "../../../components/Autocomplete";
+import { Autocomplete } from "../../../components/Autocomplete";
 import {
   AutocompleteContext,
   AutocompleteContextProps,
 } from "../../../components/Autocomplete/context";
 
 jest.mock("react", () => ({
-  ...(jest.requireActual("react") as typeof React),
+  ...jest.requireActual("react"),
   useState: jest.fn(),
 }));
 
@@ -20,12 +18,6 @@ const CONTEXT_INITIAL_VALUES: AutocompleteContextProps = {
   setValue: jest.fn(),
   setOpen: jest.fn(),
 };
-
-const mockedOptions = [
-  { name: "Value 1", value: "Value 1", id: 1 },
-  { name: "Value 2", value: "Value 2", id: 2 },
-  { name: "Value 3", value: "Value 3", id: 3 },
-];
 
 describe("<Autocomplete/>", () => {
   describe("<Container/>", () => {

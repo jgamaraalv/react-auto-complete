@@ -1,5 +1,5 @@
 export const callAll =
-  (...fns: (((...args: any[]) => void) | undefined)[]) =>
+  (...fns: Array<((...args: any[]) => void) | undefined>) =>
   (...args: any[]) =>
     fns.forEach((fn) => fn?.(...args));
 
@@ -10,7 +10,7 @@ export function bodyClickHandler(
 ) {
   let element = event.target as HTMLElement | null;
 
-  while (element) {
+  while (element != null) {
     if (element === elementRef.current) {
       return;
     }
@@ -34,13 +34,13 @@ export function throttle(
   let setTimeoutId: NodeJS.Timeout | null;
 
   return function () {
-    if (setTimeoutId) {
+    if (setTimeoutId != null) {
       return;
     }
 
     setTimeoutId = setTimeout(() => {
-      //@ts-ignore
-      fn.apply(this, arguments);
+      // @ts-expect-error
+      void fn.apply(this, arguments);
       setTimeoutId = null;
     }, time);
   };

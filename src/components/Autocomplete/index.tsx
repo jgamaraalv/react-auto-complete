@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 import usePrevious from "../../hooks/usePrevious";
-//@ts-ignore
+// @ts-expect-error
 import classes from "./index.module.css";
 import { callAll, bodyClickHandler, keyDownHandler, throttle } from "./utils";
 import useAutocomplete, { AutocompleteContext } from "./context";
@@ -34,7 +34,7 @@ function Container({ children, ...props }: ContainerProps) {
   return (
     <AutocompleteContext.Provider value={{ open, value, setValue, setOpen }}>
       <div
-        className={classes["autocomplete__container"]}
+        className={classes.autocomplete__container}
         ref={containerRef}
         {...props}
       >
@@ -57,7 +57,7 @@ function Input({ onFocus, onBlur, onChange, ...props }: InputProps) {
       onFocus={callAll(() => setOpen(true), onFocus)}
       onChange={callAll(inputChangeHandler, onChange)}
       value={value}
-      className={classes["input"]}
+      className={classes.input}
       {...props}
     />
   );
@@ -107,9 +107,9 @@ function ListItem({
 
   return (
     <li
-      onClick={callAll(setValueHandler, () => onClick && onClick(value))}
+      onClick={callAll(setValueHandler, () => onClick?.(value))}
       onKeyDown={callAll(keyDownHandler, onKeyDown)}
-      className={classes["list__item"]}
+      className={classes.list__item}
       tabIndex={0}
       {...props}
     >
@@ -121,7 +121,7 @@ function ListItem({
 type ListProps = Omit<React.HTMLAttributes<HTMLUListElement>, "children"> & {
   children:
     | React.ReactElement<ListItemProps, typeof ListItem>
-    | React.ReactElement<ListItemProps, typeof ListItem>[];
+    | Array<React.ReactElement<ListItemProps, typeof ListItem>>;
 };
 function List({ children, ...props }: ListProps) {
   const { open, value } = useAutocomplete();
@@ -145,14 +145,14 @@ function List({ children, ...props }: ListProps) {
   });
 
   return open ? (
-    <ul className={classes["list"]} {...props}>
+    <ul className={classes.list} {...props}>
       {listChildren}
     </ul>
   ) : null;
 }
 
 interface AutocompleteProps {
-  options?: { name: string; value: string; id: number }[];
+  options?: Array<{ name: string; value: string; id: number }>;
   onSearch?: (event: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
   onOptionSelected?: ListItemProps["onClick"];
 }

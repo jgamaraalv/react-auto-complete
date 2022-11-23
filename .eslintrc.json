@@ -1,0 +1,40 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": ["plugin:react/recommended", "standard-with-typescript"],
+  "overrides": [],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": ["./tsconfig.json"]
+  },
+  "plugins": ["react"],
+  "ignorePatterns": [
+    "*.d.ts",
+    "dist",
+    "vite.config.ts",
+    "jest-setup.ts",
+    "babel.config.cjs",
+    "jest.config.cjs"
+  ],
+  "rules": {
+    "@typescript-eslint/semi": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/comma-dangle": "off",
+    "react/react-in-jsx-scope": "off",
+    "space-before-function-paren": "off",
+    "@typescript-eslint/space-before-function-paren": "off",
+    "@typescript-eslint/indent": "off",
+    "@typescript-eslint/member-delimiter-style": "off",
+    "react/display-name": "off",
+    "react/prop-types": "off",
+    "quotes": "off",
+    "@typescript-eslint/quotes": "off",
+    "multiline-ternary": "off",
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "comma-dangle": "off",
+    "semi": "off"
+  }
+}

@@ -4,12 +4,6 @@ interface ProductResponse {
   id: number;
 }
 
-interface Product {
-  name: string;
-  value: string;
-  id: number;
-}
-
 async function products(search: string = "") {
   const response = await fetch(
     `https://dummyjson.com/products${search ? `/search?q=${search}` : ""}`
