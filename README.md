@@ -25,11 +25,21 @@ Then you can run
 ```
 # Yarn
 yarn install
+
+# Run locally
 yarn dev
+
+# Unit tests
+yarn test:unit
 
 # NPM
 npm install
+
+# Run locally
 npm dev
+
+# Unit tests
+npm test:unit
 ```
 
 ## How to use the Autocomplete Component
