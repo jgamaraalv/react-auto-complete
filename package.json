@@ -21,7 +21,7 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "test:unit": "NODE_ENV=test jest --verbose",
+    "test:unit": "NODE_ENV=test jest --silent",
     "test": "yarn lint && yarn test:unit",
     "dev": "vite",
     "build": "yarn test && tsc -p tsconfig.prod.json && vite build",

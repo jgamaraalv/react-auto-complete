@@ -1,6 +1,6 @@
-import { createContext, useState, useCallback, useContext } from "react";
+import { createContext, useContext } from "react";
 
-interface AutocompleteContextProps {
+export interface AutocompleteContextProps {
   open: boolean;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
@@ -19,3 +19,5 @@ export function useAutocomplete() {
 
   return context;
 }
+
+export default useAutocomplete;

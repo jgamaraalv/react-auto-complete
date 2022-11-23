@@ -4,7 +4,7 @@ import usePrevious from "../../hooks/usePrevious";
 //@ts-ignore
 import classes from "./index.module.css";
 import { callAll, bodyClickHandler, keyDownHandler, throttle } from "./utils";
-import { useAutocomplete, AutocompleteContext } from "./context";
+import useAutocomplete, { AutocompleteContext } from "./context";
 
 type ContainerProps = React.HTMLAttributes<HTMLDivElement>;
 function Container({ children, ...props }: ContainerProps) {
@@ -79,10 +79,7 @@ function ListItem({
   ...props
 }: ListItemProps) {
   const { value: autocompleteValue, setOpen, setValue } = useAutocomplete();
-  const valueRegex = new RegExp(
-    `(${autocompleteValue.toLocaleLowerCase()})`,
-    "i"
-  );
+  const valueRegex = new RegExp(`(${autocompleteValue.toLowerCase()})`, "i");
 
   function setValueHandler() {
     setValue(value);
@@ -96,7 +93,7 @@ function ListItem({
   }
 
   const item = children.split(valueRegex).map((letter, idx) =>
-    letter.toLocaleLowerCase() === autocompleteValue.toLocaleLowerCase() ? (
+    letter.toLowerCase() === autocompleteValue.toLowerCase() ? (
       <span
         key={`value-${letter}-${idx}`}
         className={classes["list__item__text--highlighted"]}
@@ -138,8 +135,8 @@ function List({ children, ...props }: ListProps) {
 
     if (
       child.props.children
-        .toLocaleLowerCase()
-        .includes(value.toLocaleLowerCase())
+        .toLowerCase()
+        .includes(String(value || "").toLowerCase())
     ) {
       return child;
     }
