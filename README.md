@@ -1,6 +1,6 @@
 # react-auto-complete
 
-An awesome `Auto Complete` for your React application.
+An awesome `Auto Complete` for your React application. <br />
 Live preview: https://react-ac-4.vercel.app/
 
 ## How to install in your project
