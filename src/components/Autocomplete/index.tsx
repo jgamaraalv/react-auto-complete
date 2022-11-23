@@ -207,5 +207,5 @@ export type {
   ListItemProps,
   AutocompleteProps,
 };
-export { Container as Autocomplete };
+export { Container as Autocomplete, classes };
 export default Autocomplete;

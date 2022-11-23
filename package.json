@@ -1,7 +1,7 @@
 {
   "name": "@jgamaraalv/react-auto-complete",
   "description": "An amazing auto complete for your React application",
-  "version": "1.1.0",
+  "version": "1.2.1",
   "author": "João G. A. Vequiato <guilive13@gmail.com>",
   "license": "MIT",
   "bugs": {
@@ -24,7 +24,7 @@
     "test:unit": "NODE_ENV=test jest --silent",
     "test": "yarn lint && yarn test:unit",
     "dev": "vite",
-    "build": "yarn test && tsc -p tsconfig.prod.json && vite build",
+    "build": "tsc -p tsconfig.prod.json && vite build",
     "preview": "vite preview",
     "prepare": "husky install"
   },
